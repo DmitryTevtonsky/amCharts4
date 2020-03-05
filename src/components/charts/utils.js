@@ -32,8 +32,6 @@ const createChart = (div, data) => {
   // chart.legend.position = 'bottom';
   // chart.legend.scrollable = true;
 
-  console.log('CHART: ', chart);
-
   chart.exporting.menu = new am4core.ExportMenu();
 
   return chart;
@@ -112,7 +110,6 @@ const createLegend = (div, chart) => {
       const { value } = row;
       console.log('row', row);
     });
-
   });
 };
 

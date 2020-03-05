@@ -21,8 +21,6 @@ function App() {
       fetchDataForCharts(dateInterval, tis)
         .then(res => {
           const { data, ...additionalData } = res.data;
-          console.log('additionalData', additionalData);
-          console.log('res.data', res.data);
 
           setMainData({ data, additionalData });
         })
