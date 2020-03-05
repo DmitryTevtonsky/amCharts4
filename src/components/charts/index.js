@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
-import './index.css'
-// import * as am4core from '@amcharts/amcharts4/core';
-// import * as am4charts from '@amcharts/amcharts4/charts';
-// import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import {
-  createChart,
-  createValueAxis,
-  createSeries,
-  createLegend
-} from './utils';
+import './index.css';
+
+import { createChart, createSeries } from './utils';
 import CustomLegend from '../customLegend';
 
 // am4core.useTheme(am4themes_animated);
@@ -38,8 +31,6 @@ const ChartV4 = ({ mainData: { data, additionalData } }) => {
     chart.customLegend = document.getElementById('Chart-legend');
     setChart(chart);
     return () => chart.dispose();
-
-    // TODO: change datasets without rerender of chart
   }, [data]);
 
   return (
@@ -51,7 +42,9 @@ const ChartV4 = ({ mainData: { data, additionalData } }) => {
           height: '95vh'
         }}
       />
-      <CustomLegend chart={thisChart}></CustomLegend>
+      {thisChart && thisChart.series && thisChart.series.values && (
+        <CustomLegend chart={thisChart} serieses={thisChart.series.values} />
+      )}
     </div>
   );
 };
