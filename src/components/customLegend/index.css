@@ -1,0 +1,9 @@
+.customLegend {
+  width: 20%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+}

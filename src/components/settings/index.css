@@ -1,0 +1,8 @@
+.settings {
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  align-items: center;
+  height: 5vh;
+  width: 100%;
+}
