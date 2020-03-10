@@ -3,11 +3,13 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import LegendItem from './legendItem';
 
 import './index.css';
+import { Typography } from 'antd';
 
-const initial = Array.from({ length: 10 }, (v, k) => k).map(k => {
+const { Text } = Typography;
+const initial = Array.from({ length: 3 }, (v, k) => k).map(k => {
   const custom = {
     id: `id-${k}`,
-    content: `Quote ${k}`
+    content: `Series ${k}`
   };
 
   return custom;
@@ -21,32 +23,16 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const DraggableLegendItem = ({ quote, index }) => {
-  return (
-    <Draggable draggableId={quote.id} index={index}>
-      {provided => (
-        <div
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          {quote.content}
-        </div>
-      )}
-    </Draggable>
-  );
-};
-
-const LegendItemsList = React.memo(function LegendItemsList({ quotes }) {
-  return quotes.map((quote, index) => (
-    <DraggableLegendItem quote={quote} index={index} key={quote.id} />
-  ));
-});
+const Series = () => (
+  <Draggable draggableId="" index="">
+    <div>kek</div>
+  </Draggable>
+);
 
 const CustomLegend = ({ chart, serieses }) => {
-  const [state, setState] = useState({ quotes: initial });
+  const [state, setState] = useState({ serieses: initial });
 
-  function onDragEnd(result) {
+  const onDragEnd = result => {
     if (!result.destination) {
       return;
     }
@@ -55,33 +41,29 @@ const CustomLegend = ({ chart, serieses }) => {
       return;
     }
 
-    const quotes = reorder(
-      state.quotes,
+    const serieses = reorder(
+      state.serieses,
       result.source.index,
       result.destination.index
     );
 
-    setState({ quotes });
-  }
+    setState({ serieses });
+  };
+
   console.log('state', state);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="mainDrappableLayout">
+      <Droppable droppableId="test1">
         {provided => (
-          <div ref={provided.innerRef} {...provided.droppableProps}>
-            <LegendItemsList quotes={state.quotes} />
+          <SeriesList innerRed={provided.innerRef} {...provided.droppableProps}>
+            {state.serieses.map((series, index) => (
+              <Series key={series.id} series={series} index={index} />
+            ))}
             {provided.placeholder}
-          </div>
+          </SeriesList>
         )}
       </Droppable>
     </DragDropContext>
-
-    /**
-     * https://egghead.io/lessons/react-reorder-columns-with-react-beautiful-dnd
-     * https://react-beautiful-dnd.netlify.com/?path=/story/single-vertical-list--with-combine-enabled
-     * https://codesandbox.io/s/zqwz5n5p9x
-     * https://codesandbox.io/s/ql08j35j3q
-     */
   );
 };
 

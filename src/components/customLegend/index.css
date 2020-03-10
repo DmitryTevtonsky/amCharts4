@@ -7,3 +7,19 @@
   align-items: start;
   justify-content: space-between;
 }
+
+.draggableLegendItem {
+  background-color: teal;
+  color: white;
+  border: 1px solid gray;
+  margin-bottom: 10px;
+  padding: 5px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainDroppableLayout {
+  padding: 10px;
+  border: 1px dashed gray;
+  width: 300px;
+}
