@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
-import './index.css'
+import './index.css';
 // import * as am4core from '@amcharts/amcharts4/core';
 // import * as am4charts from '@amcharts/amcharts4/charts';
 // import am4themes_animated from '@amcharts/amcharts4/themes/animated';
-import {
-  createChart,
-  createValueAxis,
-  createSeries,
-  createLegend
-} from './utils';
+import { createChart, createValueAxis, createSeries } from './utils';
 import CustomLegend from '../customLegend';
 
 // am4core.useTheme(am4themes_animated);
@@ -35,7 +30,6 @@ const ChartV4 = ({ mainData: { data, additionalData } }) => {
     discreteInstances.map(inst =>
       createSeries(chart, true, false, inst.title, inst.fid)
     );
-    chart.customLegend = document.getElementById('Chart-legend');
     setChart(chart);
     return () => chart.dispose();
 
@@ -47,11 +41,11 @@ const ChartV4 = ({ mainData: { data, additionalData } }) => {
       <div
         id="Series-all"
         style={{
-          width: '80%',
+          width: '100%',
           height: '95vh'
         }}
       />
-      <CustomLegend chart={thisChart}></CustomLegend>
+      {/* <CustomLegend chart={thisChart}></CustomLegend> */}
     </div>
   );
 };

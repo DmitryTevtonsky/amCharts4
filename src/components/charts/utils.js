@@ -28,11 +28,10 @@ const createChart = (div, data) => {
   chart.cursor.behavior = 'zoomX';
   chart.cursor.xAxis = dateAxis;
 
-  // chart.legend = new am4charts.Legend();
-  // chart.legend.position = 'bottom';
-  // chart.legend.scrollable = true;
-
-  console.log('CHART: ', chart);
+  chart.legend = new am4charts.Legend();
+  chart.legend.position = 'right';
+  chart.legend.maxWidth = undefined;
+  chart.legend.scrollable = true;
 
   chart.exporting.menu = new am4core.ExportMenu();
 
@@ -102,18 +101,4 @@ const createSeries = (
   return series;
 };
 
-const createLegend = (div, chart) => {
-  chart.events.on('ready', function(event) {
-    // populate our custom legend when chart renders
-    chart.customLegend = document.getElementById(div);
-    chart.series.values.forEach((row, i) => {
-      console.log('row', row);
-      const color = chart.colors.getIndex(i);
-      const { value } = row;
-      console.log('row', row);
-    });
-
-  });
-};
-
-export { createChart, createSeries, createValueAxis, createLegend };
+export { createChart, createSeries, createValueAxis };

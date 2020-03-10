@@ -5,7 +5,7 @@ import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 import am4themes_material from '@amcharts/amcharts4/themes/material';
 
-import { DatePicker, Input, Typography, Switch } from 'antd';
+import { DatePicker, Input, Typography } from 'antd';
 import moment from 'moment';
 
 const { Text } = Typography;
@@ -23,16 +23,6 @@ const Settings = ({ updateDateInterval, updateTisList, additionalData }) => {
   const onChangeTis = e => {
     e.persist();
     updateTisList(e.target.value);
-  };
-
-  const onChangeAnimation = checked => {
-    if (checked) {
-      am4core.useTheme(am4themes_animated);
-    } else {
-      am4core.unuseAllThemes();
-      am4core.useTheme(am4themes_material);
-    }
-    console.log(`switch to ${checked}`);
   };
 
   return (
@@ -71,10 +61,6 @@ const Settings = ({ updateDateInterval, updateTisList, additionalData }) => {
         onChange={onOk}
       />
       <Text strong>Количество точек: {counts_output}</Text>
-      <div>
-        <Text strong>Анимация: </Text>
-        <Switch defaultChecked onChange={onChangeAnimation} />{' '}
-      </div>
     </div>
   );
 };
