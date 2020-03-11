@@ -11,28 +11,57 @@ import CustomLegend from '../customLegend';
 
 const ChartV4 = ({ mainData: { data, additionalData } }) => {
   const [thisChart, setChart] = useState();
-  const [dataForGrouping, setDataForGrouping] = useState();
+  const [dataForGrouping, setDataForGrouping] = useState({});
 
   useEffect(() => {
-    console.log('dataForGrouping', dataForGrouping);
     const chart = createChart(`Series-all`, data);
-    console.log('additionalData', additionalData);
+    console.log('dataForGrouping', dataForGrouping);
+    console.log('additionalData', additionalData.fid);
 
-    const discreteInstances = additionalData.fid.filter(
-      ({ unit }) => unit === ''
-    );
+    if (dataForGrouping.data) {
+      const groupedAxises = dataForGrouping.data.grouping
+        .map(group =>
+          group.map(instance =>
+            additionalData.fid.find(fid => instance === fid.fid)
+          )
+        )
+        .filter(elem => elem.length);
+      console.log('groupedAxis', groupedAxises);
+      groupedAxises.map(group => {
+        if (group.length === 1) {
+          const [singleAxis] = group;
+          console.log(singleAxis, 'singleAxis');
+          createSeries(
+            chart,
+            singleAxis.unit === '',
+            false,
+            singleAxis.title,
+            singleAxis.fid
+          );
+        } else {
+          const valueAxis = createValueAxis(chart);
+          group.map(element => {
+            console.log('element', element);
 
-    const serialInstances = additionalData.fid.filter(
-      ({ unit }) => unit !== ''
-    );
+            createSeries(
+              chart,
+              element.unit === '',
+              valueAxis,
+              element.title,
+              element.fid
+            );
+          });
+        }
+      });
+    }
 
-    serialInstances.map(inst =>
-      createSeries(chart, false, false, inst.title, inst.fid)
-    );
+    // additionalData.fid.map(inst =>
+    //   createSeries(chart, inst.unit === '', false, inst.title, inst.fid)
+    // );
 
-    discreteInstances.map(inst =>
-      createSeries(chart, true, false, inst.title, inst.fid)
-    );
+    // discreteInstances.map(inst =>
+    //   createSeries(chart, true, false, inst.title, inst.fid)
+    // );
     setChart(chart);
     return () => chart.dispose();
   }, [data, dataForGrouping]);
@@ -40,6 +69,7 @@ const ChartV4 = ({ mainData: { data, additionalData } }) => {
   const updateChartForGrouping = dataForRegrouping => {
     if (Object.keys(dataForRegrouping).length) {
       console.log('updateChartForGrouping', dataForRegrouping);
+      setDataForGrouping(dataForRegrouping);
     }
   };
 

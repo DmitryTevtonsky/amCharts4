@@ -9,7 +9,12 @@ const CustomLegend = ({ chart, trueFids, updateChartForGrouping }) => {
 
   useEffect(() => {
     if (Object.keys(data).length) {
-      updateChartForGrouping(data);
+      const grouping = Object.keys(data.axises).map(
+        axis => data.axises[axis].seriesesIds
+      );
+      console.log(grouping);
+
+      updateChartForGrouping({ data: { ...data, grouping } });
     }
   }, [data]);
 
@@ -36,10 +41,12 @@ const CustomLegend = ({ chart, trueFids, updateChartForGrouping }) => {
       reformatedSerieses[`${series.fid}`] = seriesItem;
     });
 
+    const grouping = Object.keys(axises).map(axis => axises[axis].seriesesIds);
     setData({
       serieses: reformatedSerieses,
       axises,
-      axisesOrder: Object.keys(axises)
+      axisesOrder: Object.keys(axises),
+      grouping
     });
   }, [trueFids]);
 
