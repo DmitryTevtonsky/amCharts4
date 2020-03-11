@@ -12,7 +12,8 @@ function App() {
     endDate: '2020-03-04 23:59:59'
   });
   const [tis, setTis] = useState(
-    '1002,1003,1004,11014001,11015001,11016004,11017004,11018004'
+    // '1002,1003,1004,11014001,11015001,11016004,11017004,11018004'
+    '1002,1003,,11014001'
   );
 
   useEffect(() => {
@@ -21,8 +22,8 @@ function App() {
       fetchDataForCharts(dateInterval, tis)
         .then(res => {
           const { data, ...additionalData } = res.data;
-          console.log('additionalData', additionalData);
-          console.log('res.data', res.data);
+          // console.log('additionalData', additionalData);
+          // console.log('res.data', res.data);
 
           setMainData({ data, additionalData });
         })

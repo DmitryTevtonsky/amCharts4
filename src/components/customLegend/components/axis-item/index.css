@@ -1,0 +1,18 @@
+.axis-item {
+  margin: 8px;
+  border: 1px dashed indigo;
+  min-width: 300px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.axis-item-title {
+  padding: 4px;
+}
+
+.series-list {
+  margin: 8px;
+  flex-grow: 1;
+  /* min-height: 100px; */
+}

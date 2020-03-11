@@ -11,9 +11,12 @@ import CustomLegend from '../customLegend';
 
 const ChartV4 = ({ mainData: { data, additionalData } }) => {
   const [thisChart, setChart] = useState();
+  const [dataForGrouping, setDataForGrouping] = useState();
 
   useEffect(() => {
+    console.log('dataForGrouping', dataForGrouping);
     const chart = createChart(`Series-all`, data);
+    console.log('additionalData', additionalData);
 
     const discreteInstances = additionalData.fid.filter(
       ({ unit }) => unit === ''
@@ -32,20 +35,30 @@ const ChartV4 = ({ mainData: { data, additionalData } }) => {
     );
     setChart(chart);
     return () => chart.dispose();
+  }, [data, dataForGrouping]);
 
-    // TODO: change datasets without rerender of chart
-  }, [data]);
+  const updateChartForGrouping = dataForRegrouping => {
+    if (Object.keys(dataForRegrouping).length) {
+      console.log('updateChartForGrouping', dataForRegrouping);
+    }
+  };
 
   return (
     <div className="chartWithLegend">
       <div
         id="Series-all"
         style={{
-          width: '100%',
+          width: '70%',
           height: '95vh'
         }}
       />
-      {/* <CustomLegend chart={thisChart}></CustomLegend> */}
+      {thisChart && thisChart.series && (
+        <CustomLegend
+          chart={thisChart}
+          trueFids={additionalData.fid}
+          updateChartForGrouping={updateChartForGrouping}
+        />
+      )}
     </div>
   );
 };

@@ -15,7 +15,7 @@ const createChart = (div, data) => {
   dateAxis.renderer.ticks.template.strokeOpacity = 0.1;
   dateAxis.renderer.ticks.template.disabled = false;
   dateAxis.renderer.ticks.template.strokeOpacity = 0.2;
-  dateAxis.groupData = true;
+  dateAxis.groupData = true; // Optimization
 
   chart.dateFormatter.inputDateFormat = 'yyyy-MM-dd HH-mm-ss';
   chart.dateFormatter.dateFormat = 'yyyy-MM-dd'; // format to display
@@ -28,10 +28,10 @@ const createChart = (div, data) => {
   chart.cursor.behavior = 'zoomX';
   chart.cursor.xAxis = dateAxis;
 
-  chart.legend = new am4charts.Legend();
-  chart.legend.position = 'right';
-  chart.legend.maxWidth = undefined;
-  chart.legend.scrollable = true;
+  // chart.legend = new am4charts.Legend();
+  // chart.legend.position = 'right';
+  // chart.legend.maxWidth = undefined;
+  // chart.legend.scrollable = true;
 
   chart.exporting.menu = new am4core.ExportMenu();
 
@@ -87,6 +87,7 @@ const createSeries = (
     : chart.series.push(new am4charts.StepLineSeries());
   series.dataFields.valueY = field;
   series.dataFields.dateX = 'date';
+  series.dataItems.template.locations.dateX = 0;
   series.name = seriesName;
 
   if (!valueAxis) {
