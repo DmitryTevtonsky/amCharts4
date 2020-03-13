@@ -29,7 +29,7 @@ const Settings = ({ updateDateInterval, updateTisList, additionalData }) => {
     <div className="settings">
       <Input
         style={{ width: '500px' }}
-        defaultValue="1002,1003,1004,11014001,11015001,11016004,11017004,11018004"
+        defaultValue="1002,1003,11016004,11017004"
         onPressEnter={onChangeTis}
       />
       <RangePicker

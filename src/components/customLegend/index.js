@@ -9,7 +9,11 @@ const CustomLegend = ({ chart, trueFids, updateChartForGrouping }) => {
 
   useEffect(() => {
     if (Object.keys(data).length) {
-      const grouping = Object.keys(data.axises).map(
+      // const grouping = Object.keys(data.axises).map(
+      //   axis => data.axises[axis].seriesesIds
+      // );
+
+      const grouping = data.axisesOrder.map(
         axis => data.axises[axis].seriesesIds
       );
       console.log(grouping);

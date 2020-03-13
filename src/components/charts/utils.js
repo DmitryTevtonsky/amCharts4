@@ -7,6 +7,7 @@ const createChart = (div, data) => {
   const chart = am4core.create(div, am4charts.XYChart);
   chart.data = data;
   chart.leftAxesContainer.layout = 'vertical';
+  chart.rightAxesContainer.layout = 'horizontal';
 
   const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
   dateAxis.renderer.grid.template.location = 0;
@@ -53,6 +54,32 @@ const createValueAxis = chart => {
   return valueAxis;
 };
 
+const createDiscreteValueAxis = chart => {
+  const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+  valueAxis.renderer.line.strokeOpacity = 1;
+  valueAxis.renderer.line.strokeWidth = 2;
+  valueAxis.renderer.line.stroke = '#aee';
+  valueAxis.renderer.labels.template.fill = '#aee';
+  valueAxis.renderer.opposite = true;
+
+  return valueAxis;
+};
+
+const createSeriesInstance = (chart, isStepped, field, seriesName) => {
+  const seriesInstance = !isStepped
+    ? chart.series.push(new am4charts.LineSeries())
+    : chart.series.push(new am4charts.StepLineSeries());
+  seriesInstance.dataFields.valueY = field;
+  seriesInstance.dataFields.dateX = 'date';
+  seriesInstance.dataItems.template.locations.dateX = 0;
+  seriesInstance.name = seriesName;
+  seriesInstance.tooltipText = '{valueY}'; // "{name}: [bold]{valueY}[/]";
+  seriesInstance.tooltip.background.fillOpacity = 0.5;
+  seriesInstance.legendSettings.itemValueText = '{valueY}';
+  seriesInstance.strokeWidth = 1.5;
+  return seriesInstance;
+};
+
 const createSeries = (
   chart,
   isStepped = false,
@@ -70,36 +97,27 @@ const createSeries = (
     );
     newValueAxis.renderer.gridContainer.background.fillOpacity = 0.05;
 
-    newValueAxis.marginTop = 10;
-    newValueAxis.marginBottom = 10;
+    newValueAxis.marginTop = 8;
+    newValueAxis.marginBottom = 8;
     newValueAxis.zIndex = 1;
+
     if (isStepped) {
-      // for DISCRETES
       newValueAxis.min = 0;
       newValueAxis.max = 1;
       newValueAxis.strictMinMax = true;
-      newValueAxis.height = am4core.percent(50);
+      newValueAxis.height = 25; // Strict height for stepLine serieses
     }
   }
 
-  const series = !isStepped
-    ? chart.series.push(new am4charts.LineSeries())
-    : chart.series.push(new am4charts.StepLineSeries());
-  series.dataFields.valueY = field;
-  series.dataFields.dateX = 'date';
-  series.dataItems.template.locations.dateX = 0;
-  series.name = seriesName;
-
+  const series = createSeriesInstance(chart, isStepped, field, seriesName);
+  console.log(series);
   if (!valueAxis) {
     series.yAxis = newValueAxis;
+  } else {
+    series.yAxis = valueAxis;
   }
 
-  series.tooltipText = '{valueY}';
-  series.tooltip.background.fillOpacity = 0.5;
-  series.legendSettings.itemValueText = '{valueY}';
-
-  series.strokeWidth = 1.5;
   return series;
 };
 
-export { createChart, createSeries, createValueAxis };
+export { createChart, createSeries, createValueAxis, createDiscreteValueAxis };
